@@ -19,11 +19,15 @@ NEXT_PUBLIC_API_URL=http://localhost:3000
 ## Ejecucion local
 
 ```bash
+# Terminal 1 (backend)
+# cd ../Backend-PruebaCertika && npm run dev
+
+# Terminal 2 (frontend)
 npm install
 npm run dev
 ```
 
-Abrir [http://localhost:3000](http://localhost:3000).
+Abrir [http://localhost:3001](http://localhost:3001).
 
 La pagina principal se edita en `app/page.js`.
 # Frontend-PruebaCertika
