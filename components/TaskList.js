@@ -1,4 +1,12 @@
-export default function TaskList({ tasks }) {
+import TaskItem from "./TaskItem";
+
+export default function TaskList({
+  tasks,
+  busyTaskId,
+  onUpdateTask,
+  onCompleteTask,
+  onDeleteTask,
+}) {
   if (!tasks.length) {
     return <p className="tasks-empty">No hay tareas todavia.</p>;
   }
@@ -6,16 +14,14 @@ export default function TaskList({ tasks }) {
   return (
     <ul className="tasks-list">
       {tasks.map((task) => (
-        <li key={task.id} className="tasks-list__item">
-          <span>{task.title}</span>
-          <span
-            className={`tasks-list__status ${
-              task.status === "completed" ? "tasks-list__status--completed" : ""
-            }`}
-          >
-            {task.status}
-          </span>
-        </li>
+        <TaskItem
+          key={task.id}
+          task={task}
+          isBusy={busyTaskId === task.id}
+          onUpdateTask={onUpdateTask}
+          onCompleteTask={onCompleteTask}
+          onDeleteTask={onDeleteTask}
+        />
       ))}
     </ul>
   );

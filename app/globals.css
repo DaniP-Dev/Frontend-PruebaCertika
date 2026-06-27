@@ -96,11 +96,27 @@ h1 {
 .tasks-list__item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 1rem;
   padding: 0.9rem 1rem;
   background-color: #fff;
   border: 1px solid #e9e9e9;
   border-radius: 10px;
+}
+
+.tasks-list__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tasks-list__title {
+  margin: 0 0 0.35rem;
+  word-break: break-word;
+}
+
+.tasks-list__title--completed {
+  text-decoration: line-through;
+  color: #6b7280;
 }
 
 .tasks-list__status {
@@ -112,4 +128,61 @@ h1 {
 
 .tasks-list__status--completed {
   color: #0f766e;
+}
+
+.tasks-list__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.tasks-list__button {
+  padding: 0.45rem 0.65rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tasks-list__button--secondary {
+  background-color: #4b5563;
+}
+
+.tasks-list__button--complete {
+  background-color: #047857;
+}
+
+.tasks-list__button--danger {
+  background-color: #b91c1c;
+}
+
+.tasks-list__button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.task-inline-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.task-inline-form__input {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.task-inline-form__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.task-inline-form__error {
+  margin: 0.4rem 0 0;
+  color: #8a1f1f;
 }

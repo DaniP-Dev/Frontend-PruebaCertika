@@ -3,12 +3,19 @@
 import { useEffect, useState } from "react";
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
-import { createTask, listTasks } from "../lib/tasks.api";
+import {
+  completeTask,
+  createTask,
+  deleteTask,
+  listTasks,
+  updateTask,
+} from "../lib/tasks.api";
 
 export default function HomePage() {
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [busyTaskId, setBusyTaskId] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -55,6 +62,67 @@ export default function HomePage() {
     }
   }
 
+  async function handleUpdateTask(taskId, title) {
+    setBusyTaskId(taskId);
+    setError("");
+
+    try {
+      const currentTask = tasks.find((task) => task.id === taskId);
+      if (!currentTask) {
+        throw new Error("La tarea no existe.");
+      }
+
+      const updatedTask = await updateTask(taskId, {
+        title,
+        status: currentTask.status,
+      });
+
+      setTasks((currentTasks) =>
+        currentTasks.map((task) => (task.id === taskId ? updatedTask : task))
+      );
+    } catch (updateError) {
+      const message = updateError.message || "No se pudo editar la tarea.";
+      setError(message);
+      throw updateError;
+    } finally {
+      setBusyTaskId(null);
+    }
+  }
+
+  async function handleCompleteTask(taskId) {
+    setBusyTaskId(taskId);
+    setError("");
+
+    try {
+      const completedTask = await completeTask(taskId);
+      setTasks((currentTasks) =>
+        currentTasks.map((task) => (task.id === taskId ? completedTask : task))
+      );
+    } catch (completeError) {
+      const message = completeError.message || "No se pudo completar la tarea.";
+      setError(message);
+      throw completeError;
+    } finally {
+      setBusyTaskId(null);
+    }
+  }
+
+  async function handleDeleteTask(taskId) {
+    setBusyTaskId(taskId);
+    setError("");
+
+    try {
+      await deleteTask(taskId);
+      setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId));
+    } catch (deleteError) {
+      const message = deleteError.message || "No se pudo eliminar la tarea.";
+      setError(message);
+      throw deleteError;
+    } finally {
+      setBusyTaskId(null);
+    }
+  }
+
   return (
     <main className="container">
       <h1>Prueba Certika - Tasks</h1>
@@ -65,7 +133,17 @@ export default function HomePage() {
       <TaskForm onCreateTask={handleCreateTask} isSubmitting={isSubmitting} />
 
       {error ? <p className="page-error">{error}</p> : null}
-      {isLoading ? <p className="page-loading">Cargando tareas...</p> : <TaskList tasks={tasks} />}
+      {isLoading ? (
+        <p className="page-loading">Cargando tareas...</p>
+      ) : (
+        <TaskList
+          tasks={tasks}
+          busyTaskId={busyTaskId}
+          onUpdateTask={handleUpdateTask}
+          onCompleteTask={handleCompleteTask}
+          onDeleteTask={handleDeleteTask}
+        />
+      )}
     </main>
   );
 }
