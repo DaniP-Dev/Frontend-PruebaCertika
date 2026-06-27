@@ -1,72 +1,91 @@
-# Frontend Prueba Certika
+# Frontend - Prueba Certika
 
-Aplicacion web construida con Next.js (App Router) en JavaScript para consumir la API REST del backend y gestionar tareas.
+Interfaz hecha con Next.js para gestionar tareas consumiendo la API del backend.
+Desde aqui puedes crear, editar, completar y eliminar tareas.
+
+## Enlaces utiles
+
+- Frontend en produccion: `https://frontend-prueba-certika.vercel.app`
+- Backend en produccion: `https://backend-pruebacertika.onrender.com`
+- Swagger del backend: `https://backend-pruebacertika.onrender.com/docs`
 
 ## Requisitos
 
 - Node.js 20 o superior
 - npm 10 o superior
-- Backend corriendo en `http://localhost:3000`
+- Backend corriendo (si trabajas en local, normalmente en `http://localhost:3000`)
 
-## Instalacion
+## Levantar en local
+
+Instala dependencias:
 
 ```bash
 npm install
 ```
 
-## Variables de entorno
-
-1. Crear el archivo local de entorno:
+Crea el archivo de entorno:
 
 ```bash
 cp .env.example .env.local
 ```
 
-En Windows PowerShell:
+En PowerShell:
 
 ```powershell
 Copy-Item .env.example .env.local
 ```
 
-2. Configurar la URL del backend:
+Configura la URL del backend local:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-## Ejecucion
-
-1. Levantar backend (en otra terminal):
-
-```bash
-cd ../Backend-PruebaCertika
-npm install
-npm run dev
-```
-
-2. Levantar frontend:
+Ahora ejecuta:
 
 ```bash
 npm run dev
 ```
 
-3. Abrir [http://localhost:3001](http://localhost:3001).
+Abre [http://localhost:3001](http://localhost:3001).
 
-## Funcionalidades implementadas
+## Configuracion para produccion (Vercel + Render, informativa)
 
-- Listado de tareas desde `GET /api/tasks`
-- Creacion de tareas con validacion de titulo requerido
-- Edicion de tareas existentes
-- Completado de tareas con `PATCH /api/tasks/:id/complete`
-- Eliminacion de tareas
-- Manejo de estado de UI (`loading`, `refresh`, `submitting`, `busyTaskId`)
-- Manejo y visualizacion de errores de API
-- Componentes reutilizables: `TaskForm`, `TaskList`, `TaskItem`
+Esta seccion aplica solo si haces despliegue en tus propias cuentas.
 
-## Estructura principal
+En Vercel, define:
 
-- `app/page.js`: estado principal y orquestacion de acciones
-- `components/TaskForm.js`: formulario de creacion con validaciones
-- `components/TaskList.js`: renderizado del listado de tareas
-- `components/TaskItem.js`: item con acciones de editar, completar y eliminar
-- `lib/tasks.api.js`: cliente API para consumo del backend
+```env
+NEXT_PUBLIC_API_URL=https://backend-pruebacertika.onrender.com
+```
+
+En Render (backend), define:
+
+```env
+CORS_ORIGIN=https://frontend-prueba-certika.vercel.app
+```
+
+Si cambias variables, haz redeploy en ambos servicios para que tomen los valores nuevos.
+
+## Funcionalidades
+
+- Listar tareas desde `GET /api/tasks`.
+- Crear tareas validando titulo obligatorio.
+- Editar titulo y estado.
+- Completar tareas con `PATCH /api/tasks/:id/complete`.
+- Eliminar tareas.
+- Mostrar estados de carga y errores de API en pantalla.
+
+## Estructura rapida
+
+- `app/page.js`: estado principal y acciones.
+- `components/TaskForm.js`: formulario de creacion.
+- `components/TaskList.js`: lista de tareas.
+- `components/TaskItem.js`: acciones por tarea.
+- `lib/tasks.api.js`: cliente HTTP hacia el backend.
+
+## Checklist de validacion final
+
+1. El frontend abre en `https://frontend-prueba-certika.vercel.app`.
+2. El backend responde en `https://backend-pruebacertika.onrender.com/health`.
+3. Se pueden crear, editar, completar y eliminar tareas desde el frontend desplegado.
