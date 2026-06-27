@@ -33,6 +33,26 @@ h1 {
   color: #555;
 }
 
+.page-actions {
+  margin: 0 0 1rem;
+}
+
+.page-actions__button {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #111827;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.page-actions__button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .task-form {
   margin-bottom: 1.25rem;
   padding: 1rem;

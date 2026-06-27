@@ -70,7 +70,14 @@ export default function TaskItem({
               className="task-inline-form__input"
               type="text"
               value={draftTitle}
-              onChange={(event) => setDraftTitle(event.target.value)}
+              onChange={(event) => {
+                setDraftTitle(event.target.value);
+                if (editError) {
+                  setEditError("");
+                }
+              }}
+              required
+              maxLength={120}
               disabled={isBusy}
             />
             <div className="task-inline-form__actions">

@@ -36,7 +36,14 @@ export default function TaskForm({ onCreateTask, isSubmitting }) {
           type="text"
           placeholder="Ej. Preparar reporte"
           value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={(event) => {
+            setTitle(event.target.value);
+            if (error) {
+              setError("");
+            }
+          }}
+          required
+          maxLength={120}
           disabled={isSubmitting}
         />
         <button className="task-form__button" type="submit" disabled={isSubmitting}>
